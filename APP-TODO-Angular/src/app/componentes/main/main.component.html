@@ -1,0 +1,43 @@
+<!-- App de Tareas -->
+<div id="tasks-section" class="tasks-container">
+    <header class="header">
+      <div class="user-info">
+        <span id="userNameDisplay">{{nombreUsuario}}</span>
+        <div class="task-info">
+          <span id="completedTasks">Completadas: {{totalCompletadas()}}</span>
+          <span id="pendingTasks">Pendientes: {{totalPendientes()}}</span>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="cargarLogin()">Logout</button>
+    </header>
+
+    <main class="task-manager">
+      <h1>Main app tareas</h1>
+      <div class="task-actions">
+        <input type="text" id="taskName" placeholder="Nombre de la tarea" [(ngModel)] ="nuevaTarea" (keydown.enter)="agregarTarea()"/>
+        <button class="task-btn" [disabled]="!nuevaTarea.trim()" (click)="agregarTarea()">Crear Tarea</button>
+        <label class="checkbox-container">
+          Mostrar tareas completadas
+          <input type="checkbox" id="show-completed" [(ngModel)]="checkCompletadas"/>
+          <span class="checkmark"></span>
+        </label>
+      </div>
+
+      <section class="task-list" id="taskList">
+        <ul id="lista_tareas">
+            @for (item of listaTareas; track $index) {
+              @if(!item.completada || checkCompletadas){
+                <li [class]="{completada: item.completada}">
+                    {{item.nombre}} - {{item.completada | estadoTarea}}
+                    <button (click)="borrarTarea(item)">Borrar</button>
+                    @if (!item.completada){
+                      <button (click)="completarTarea(item)">Completar</button>
+                    }
+                </li>
+              }
+          }
+        </ul>
+        <!-- Bloques de tarea se añadirán aquí -->
+      </section>
+    </main>
+  </div>
